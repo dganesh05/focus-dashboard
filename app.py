@@ -1,0 +1,56 @@
+import os
+from flask import Flask, render_template, request, jsonify
+from supabase import create_client, Client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+
+# Supabase setup
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(url, key)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# To-Do List Routes
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    frequency = request.args.get('frequency', 'daily')  # Default to 'daily'
+    tasks = supabase.table('to_do_lists').select('*').eq('frequency', frequency).execute()
+    return jsonify(tasks.data)
+
+@app.route('/tasks', methods=['POST'])
+def add_task():
+    data = request.get_json()
+    new_task = supabase.table('to_do_lists').insert({
+        'task_name': data['task'],
+        'frequency': data['frequency'],
+        'status': False
+    }).execute()
+    return jsonify(new_task.data[0])
+
+@app.route('/tasks/<int:task_id>', methods=['PUT'])
+def update_task(task_id):
+    data = request.get_json()
+    update_data = {}
+    if 'status' in data:
+        update_data['status'] = data['status']
+    if 'task' in data:
+        update_data['task_name'] = data['task']
+        update_data['modified_at'] = 'now()'
+    
+    updated_task = supabase.table('to_do_lists').update(update_data).eq('id', task_id).execute()
+    return jsonify(updated_task.data[0])
+    return jsonify(updated_task.data[0])
+
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    supabase.table('to_do_lists').delete().eq('id', task_id).execute()
+    return '', 204
+
+if __name__ == '__main__':
+    app.run(debug=True)
