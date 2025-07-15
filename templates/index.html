@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="tabs">
+                <button class="tab-button active">Daily</button>
+                <button class="tab-button">Weekly</button>
+                <button class="tab-button">Monthly</button>
+            </div>
+            <div class="todo-section">
+                <h2>Undone</h2>
+                <ul id="undone-tasks" class="task-list">
+                    <!-- Tasks will be dynamically inserted here -->
+                </ul>
+                <h2>Done</h2>
+                <ul id="done-tasks" class="task-list">
+                    <!-- Completed tasks will be dynamically inserted here -->
+                </ul>
+            </div>
+             <div class="add-task-container">
+                <input type="text" id="taskInput" placeholder="Add a new task...">
+                <button id="addTaskBtn">+</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="timer-section">
+                <div class="timer-display">
+                    <div class="timer-box">
+                        <div class="time-adjust-controls">
+                            <button class="time-adjust-btn" data-unit="hours" data-change="1">▲</button>
+                            <span id="hours">00</span>
+                            <button class="time-adjust-btn" data-unit="hours" data-change="-1">▼</button>
+                        </div>
+                        <label>Hours</label>
+                    </div>
+                    <div class="timer-box">
+                        <div class="time-adjust-controls">
+                            <button class="time-adjust-btn" data-unit="minutes" data-change="1">▲</button>
+                            <span id="minutes">00</span>
+                            <button class="time-adjust-btn" data-unit="minutes" data-change="-1">▼</button>
+                        </div>
+                        <label>Minutes</label>
+                    </div>
+                    <div class="timer-box">
+                        <div class="time-adjust-controls">
+                            <button class="time-adjust-btn" data-unit="seconds" data-change="1">▲</button>
+                            <span id="seconds">00</span>
+                            <button class="time-adjust-btn" data-unit="seconds" data-change="-1">▼</button>
+                        </div>
+                        <label>Seconds</label>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button id="startBtn" class="control-button primary">Start</button>
+                    <button id="pauseBtn" class="control-button">Pause</button>
+                    <button id="stopBtn" class="control-button">Stop</button>
+                    <button id="resetBtn" class="control-button">Reset</button>
+                </div>
+            </div>
+            <div class="youtube-section">
+                <div class="youtube-input-container">
+                    <input type="text" id="youtubeUrl" placeholder="Enter a YouTube video link...">
+                    <button id="loadVideoBtn">Load Video</button>
+                </div>
+                <div class="video-container">
+                    <iframe id="youtubeIframe" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

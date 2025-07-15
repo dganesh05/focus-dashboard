@@ -1,0 +1,240 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 35%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6c757d;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+.todo-section {
+    flex-grow: 1;
+}
+
+h2 {
+    font-size: 18px;
+    color: #343a40;
+    margin-bottom: 15px;
+}
+
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task-item.completed label {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.add-task-container {
+    display: flex;
+    margin-top: 20px;
+}
+
+#taskInput {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#addTaskBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.main-content {
+    width: 65%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-section, .youtube-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.timer-display {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.timer-box {
+    text-align: center;
+}
+
+.timer-box span {
+    font-size: 48px;
+    font-weight: 500;
+    color: #343a40;
+}
+
+.timer-box label {
+    display: block;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+}
+
+.control-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.control-button.primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.control-button:not(.primary) {
+    background-color: #e9ecef;
+    color: #343a40;
+}
+
+#youtubeUrl {
+    width: calc(100% - 120px);
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#loadVideoBtn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.youtube-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.video-container {
+    align-self: center;
+    margin-top: 20px;
+    position: relative;
+    width: 50%;
+    padding-bottom: 28.125%; /* 16:9 aspect ratio */
+}
+
+#youtubeIframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.time-adjust-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-adjust-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    color: #007bff;
+    line-height: 1;
+}
+
+.timer-active .time-adjust-btn {
+    display: none;
+}
+
+.video-container.empty {
+    background-color: #e9ecef;
+}
+
+.youtube-input-container {
+    display: flex;
+}
+
+#youtubeUrl {
+    flex-grow: 1;
+    margin-right: 10px;
+}
