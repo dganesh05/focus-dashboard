@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const doneTasksList = document.getElementById('done-tasks');
     const tabs = document.querySelectorAll('.tab-button');
 
-    let currentFrequency = 'daily'; // Default frequency
+    let currentCategory = 'inbox'; // Default category
 
     // Timer
     const hoursEl = document.getElementById('hours');
@@ -26,10 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPaused = false;
 
     // --- To-Do List Functions ---
-    async function fetchTasks(frequency) {
-        const response = await fetch(`/tasks?frequency=${frequency}`);
+    async function fetchTasks(category) {
+        const response = await fetch(`/tasks?category=${category}`);
         const tasks = await response.json();
-        undoneTasksList.innerHTML = '';
+        document.getElementById('inbox-tasks').innerHTML = '';
+        document.getElementById('daily-tasks').innerHTML = '';
+        document.getElementById('weekly-tasks').innerHTML = '';
+        document.getElementById('monthly-tasks').innerHTML = '';
         doneTasksList.innerHTML = '';
 
         tasks.forEach(task => {
@@ -47,6 +50,23 @@ document.addEventListener('DOMContentLoaded', () => {
             taskName.style.margin = '0 10px';
             taskName.style.flex = '1';
 
+            const categoryDropdown = document.createElement('select');
+            categoryDropdown.classList.add('category-dropdown');
+            categoryDropdown.dataset.taskId = task.id;
+
+            const categories = ['inbox', 'daily', 'weekly', 'monthly'];
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                if (task.category === category) {
+                    option.selected = true;
+                }
+                categoryDropdown.appendChild(option);
+            });
+
+            categoryDropdown.addEventListener('change', (event) => updateTaskCategory(task.id, event.target.value));
+
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Edit';
             editBtn.addEventListener('click', () => editTask(li, task.id, taskName, editBtn));
@@ -57,13 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             li.appendChild(checkbox);
             li.appendChild(taskName);
+            li.appendChild(categoryDropdown);
             li.appendChild(editBtn);
             li.appendChild(deleteBtn);
 
             if (task.status) {
                 doneTasksList.appendChild(li);
             } else {
-                undoneTasksList.appendChild(li);
+                document.getElementById(`${task.category}-tasks`).appendChild(li);
             }
         });
     }
@@ -74,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
             await fetch('/tasks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ task, frequency: currentFrequency })
+                body: JSON.stringify({ task, category: currentCategory })
             });
             taskInput.value = '';
-            fetchTasks(currentFrequency);
+            fetchTasks(currentCategory);
         }
     }
 
@@ -87,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: isDone })
         });
-        fetchTasks(currentFrequency);
+        fetchTasks(currentCategory);
     }
 
     function editTask(li, id, label, editBtn) {
@@ -107,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ task: newTask })
                 });
             }
-            fetchTasks(currentFrequency);
+            fetchTasks(currentCategory);
         };
 
         editBtn.onclick = saveChanges;
@@ -127,7 +148,16 @@ document.addEventListener('DOMContentLoaded', () => {
         await fetch(`/tasks/${id}`, {
             method: 'DELETE'
         });
-        fetchTasks(currentFrequency);
+        fetchTasks(currentCategory);
+    }
+
+    async function updateTaskCategory(id, newCategory) {
+        await fetch(`/tasks/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: newCategory })
+        });
+        fetchTasks(currentCategory);
     }
 
     // --- Timer Functions ---
@@ -273,8 +303,17 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            currentFrequency = tab.textContent.toLowerCase();
-            fetchTasks(currentFrequency);
+            currentCategory = tab.textContent.toLowerCase();
+
+            // Hide all task category sections
+            document.querySelectorAll('.task-category-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected category's section
+            document.getElementById(`${currentCategory}-tasks-section`).style.display = 'block';
+
+            fetchTasks(currentCategory);
         });
     });
 
@@ -302,6 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initial Load
-    fetchTasks(currentFrequency);
+    fetchTasks(currentCategory);
     updateTimerDisplay();
 });

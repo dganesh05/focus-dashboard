@@ -19,8 +19,8 @@ def index():
 # To-Do List Routes
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
-    frequency = request.args.get('frequency', 'daily')  # Default to 'daily'
-    tasks = supabase.table('to_do_lists').select('*').eq('frequency', frequency).execute()
+    category = request.args.get('category', 'inbox')  # Default to 'inbox'
+    tasks = supabase.table('to_do_lists').select('*').eq('category', category).execute()
     return jsonify(tasks.data)
 
 @app.route('/tasks', methods=['POST'])
@@ -28,7 +28,7 @@ def add_task():
     data = request.get_json()
     new_task = supabase.table('to_do_lists').insert({
         'task_name': data['task'],
-        'frequency': data['frequency'],
+        'category': data['category'],
         'status': False
     }).execute()
     return jsonify(new_task.data[0])
@@ -42,6 +42,8 @@ def update_task(task_id):
     if 'task' in data:
         update_data['task_name'] = data['task']
         update_data['modified_at'] = 'now()'
+    if 'category' in data:
+        update_data['category'] = data['category']
     
     updated_task = supabase.table('to_do_lists').update(update_data).eq('id', task_id).execute()
     return jsonify(updated_task.data[0])
