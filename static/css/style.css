@@ -52,6 +52,22 @@ body {
 
 .todo-section {
     flex-grow: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+}
+
+.todo-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.todo-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.todo-section::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
 }
 
 h2 {
@@ -59,6 +75,8 @@ h2 {
     color: #343a40;
     margin-bottom: 15px;
 }
+
+
 
 .task-list {
     list-style-type: none;
@@ -68,14 +86,14 @@ h2 {
 .task-item {
     display: flex;
     align-items: center;
-    padding: 10px 0;
+    padding: 0.5em 1em;
     border-bottom: 1px solid #e9ecef;
     position: relative;
 }
 
 .category-dropdown {
     margin-left: auto; /* Pushes the dropdown to the right */
-    padding: 5px;
+    padding: 0.25em;
     border: 1px solid #ced4da;
     border-radius: 5px;
     background-color: #fff;
@@ -95,6 +113,10 @@ h2 {
 .add-task-container {
     display: flex;
     margin-top: 20px;
+    position: sticky;
+    bottom: 0;
+    background-color: #f8f9fa; /* Match sidebar background */
+    padding: 10px 0;
 }
 
 #taskInput {
@@ -248,4 +270,36 @@ h2 {
 #youtubeUrl {
     flex-grow: 1;
     margin-right: 10px;
+}
+
+.collapsible-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 10px;
+}
+
+.collapsible-header h2 {
+    margin: 0;
+}
+
+.collapse-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-content {
+    transition: max-height 0.3s ease-out;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+    overflow-y: hidden;
+}
+
+.collapsible-content:not(.collapsed) {
+    max-height: 100%;
 }

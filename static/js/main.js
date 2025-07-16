@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // To-Do List
     const taskInput = document.getElementById('taskInput');
     const addTaskBtn = document.getElementById('addTaskBtn');
-    const undoneTasksList = document.getElementById('undone-tasks');
-    const doneTasksList = document.getElementById('done-tasks');
+    // No longer a single doneTasksList, handled per category
     const tabs = document.querySelectorAll('.tab-button');
 
     let currentCategory = 'inbox'; // Default category
@@ -29,11 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchTasks(category) {
         const response = await fetch(`/tasks?category=${category}`);
         const tasks = await response.json();
-        document.getElementById('inbox-tasks').innerHTML = '';
-        document.getElementById('daily-tasks').innerHTML = '';
-        document.getElementById('weekly-tasks').innerHTML = '';
-        document.getElementById('monthly-tasks').innerHTML = '';
-        doneTasksList.innerHTML = '';
+        document.getElementById('inbox-tasks-list').innerHTML = '';
+        document.getElementById('daily-tasks-list').innerHTML = '';
+        document.getElementById('weekly-tasks-list').innerHTML = '';
+        document.getElementById('monthly-tasks-list').innerHTML = '';
+        document.getElementById('inbox-done-tasks-list').innerHTML = '';
+        document.getElementById('daily-done-tasks-list').innerHTML = '';
+        document.getElementById('weekly-done-tasks-list').innerHTML = '';
+        document.getElementById('monthly-done-tasks-list').innerHTML = '';
 
         tasks.forEach(task => {
             const li = document.createElement('li');
@@ -82,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
             li.appendChild(deleteBtn);
 
             if (task.status) {
-                doneTasksList.appendChild(li);
+                document.getElementById(`${task.category}-done-tasks-list`).appendChild(li);
             } else {
-                document.getElementById(`${task.category}-tasks`).appendChild(li);
+                document.getElementById(`${task.category}-tasks-list`).appendChild(li);
             }
         });
     }
@@ -343,4 +345,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Load
     fetchTasks(currentCategory);
     updateTimerDisplay();
+
+    // Collapsible sections
+    document.querySelectorAll('.collapsible-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const targetId = header.dataset.target;
+            const content = document.getElementById(targetId);
+            const icon = header.querySelector('.collapse-icon');
+
+            content.classList.toggle('collapsed');
+            if (content.classList.contains('collapsed')) {
+                icon.textContent = '►';
+            } else {
+                icon.textContent = '▼';
+            }
+        });
+    });
 });
