@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, jsonify
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
 
 load_dotenv()
 
@@ -47,12 +48,28 @@ def update_task(task_id):
     
     updated_task = supabase.table('to_do_lists').update(update_data).eq('id', task_id).execute()
     return jsonify(updated_task.data[0])
-    return jsonify(updated_task.data[0])
 
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
     supabase.table('to_do_lists').delete().eq('id', task_id).execute()
     return '', 204
 
+def move_daily_tasks():
+    with app.app_context():
+        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'daily').execute()
+
+def move_weekly_tasks():
+    with app.app_context():
+        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'weekly').execute()
+
+def move_monthly_tasks():
+    with app.app_context():
+        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'monthly').execute()
+
 if __name__ == '__main__':
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=move_daily_tasks, trigger="cron", hour=0, minute=0)
+    scheduler.add_job(func=move_weekly_tasks, trigger="cron", day_of_week='mon', hour=0, minute=0)
+    scheduler.add_job(func=move_monthly_tasks, trigger="cron", day=1, hour=0, minute=0)
+    scheduler.start()
     app.run(debug=True)
