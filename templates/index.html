@@ -11,15 +11,28 @@
     <div class="container">
         <div class="sidebar">
             <div class="tabs">
-                <button class="tab-button active">Daily</button>
-                <button class="tab-button">Weekly</button>
-                <button class="tab-button">Monthly</button>
+                <button class="tab-button active" data-category="inbox">Inbox</button>
+                <button class="tab-button" data-category="daily">Daily</button>
+                <button class="tab-button" data-category="weekly">Weekly</button>
+                <button class="tab-button" data-category="monthly">Monthly</button>
             </div>
             <div class="todo-section">
-                <h2>Undone</h2>
-                <ul id="undone-tasks" class="task-list">
-                    <!-- Tasks will be dynamically inserted here -->
-                </ul>
+                <div id="inbox-tasks-section" class="task-category-section">
+                    <h2>Inbox</h2>
+                    <ul id="inbox-tasks" class="task-list"></ul>
+                </div>
+                <div id="daily-tasks-section" class="task-category-section" style="display:none;">
+                    <h2>Daily</h2>
+                    <ul id="daily-tasks" class="task-list"></ul>
+                </div>
+                <div id="weekly-tasks-section" class="task-category-section" style="display:none;">
+                    <h2>Weekly</h2>
+                    <ul id="weekly-tasks" class="task-list"></ul>
+                </div>
+                <div id="monthly-tasks-section" class="task-category-section" style="display:none;">
+                    <h2>Monthly</h2>
+                    <ul id="monthly-tasks" class="task-list"></ul>
+                </div>
                 <h2>Done</h2>
                 <ul id="done-tasks" class="task-list">
                     <!-- Completed tasks will be dynamically inserted here -->
