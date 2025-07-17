@@ -150,6 +150,7 @@ h2 {
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
+    border: 2px solid transparent;
 }
 
 .timer-display {
@@ -302,4 +303,20 @@ h2 {
 
 .collapsible-content:not(.collapsed) {
     max-height: 100%;
+}
+
+.timer-flashing {
+    border-width: 4px !important;
+    border-style: solid !important;
+    animation: flashing-border 0.75s infinite;
+}
+
+.timer-flashing .time-adjust-btn {
+    display: none;
+}
+
+@keyframes flashing-border {
+    0% { border-color: #007bff; }
+    50% { border-color: #dc3545; }
+    100% { border-color: #007bff; }
 }

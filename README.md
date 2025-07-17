@@ -16,6 +16,14 @@ A modern productivity web app to help you organize your tasks, manage your time,
 - [ ] **Semantic HTML:** Refactor templates to use more semantic HTML elements for improved accessibility and SEO.
 - [ ] **Customizability:** Allow users to personalize aspects such as background, UI layout, and other preferences per session or user.
 
+## Suggestions for Improvement
+
+- **CI/CD Pipeline:** Implement a CI/CD pipeline (e.g., using GitHub Actions) to automate testing and deployment.
+- **Containerization:** Dockerize the application for easier setup and consistent development/production environments.
+- **API Documentation:** Add API documentation (e.g., using Swagger/OpenAPI) if the backend is expanded.
+- **State Management:** For the frontend, as it grows, consider a state management library or more robust patterns for managing application state.
+- **Testing:** Add more comprehensive tests, including end-to-end tests (e.g., using Cypress or Selenium) to ensure all features work as expected.
+
 ## Getting Started
 
 ### Prerequisites

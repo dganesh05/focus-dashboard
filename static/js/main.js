@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let initialTime = 0;
     let isTimerActive = false;
     let isPaused = false;
+    let isFlashing = false;
 
     // --- To-Do List Functions ---
     async function fetchTasks(category) {
@@ -222,7 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     clearInterval(timerInterval);
                     isTimerActive = false;
+                    isFlashing = true;
                     timerSection.classList.remove('timer-active');
+                    timerSection.classList.add('timer-flashing');
                     pauseBtn.textContent = 'Pause';
                 }
             }, 1000);
@@ -230,6 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function togglePause() {
+        if (isFlashing) {
+            isFlashing = false;
+            timerSection.classList.remove('timer-flashing');
+            return;
+        }
         if (!isTimerActive || timeLeft === 0) return;
 
         if (isPaused) {
@@ -242,7 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     clearInterval(timerInterval);
                     isTimerActive = false;
+                    isFlashing = true;
                     timerSection.classList.remove('timer-active');
+                    timerSection.classList.add('timer-flashing');
                     pauseBtn.textContent = 'Pause';
                 }
             }, 1000);
@@ -257,14 +267,20 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timerInterval);
         isTimerActive = false;
         isPaused = false;
+        isFlashing = false;
         timeLeft = 0;
         initialTime = 0;
         updateTimerDisplay();
         timerSection.classList.remove('timer-active');
+        timerSection.classList.remove('timer-flashing');
         pauseBtn.textContent = 'Pause';
     }
 
     function resetTimer() {
+        if (isFlashing) {
+            isFlashing = false;
+            timerSection.classList.remove('timer-flashing');
+        }
         if (!isTimerActive) return;
         timeLeft = initialTime;
         updateTimerDisplay();
@@ -334,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timeAdjustBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            if (!isTimerActive) {
+            if (!isTimerActive && !isFlashing) {
                 const unit = btn.dataset.unit;
                 const change = parseInt(btn.dataset.change, 10);
                 adjustTime(unit, change);
