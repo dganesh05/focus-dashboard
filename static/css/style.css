@@ -1,12 +1,129 @@
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg: #fff;
+    --sidebar-bg: #f8f9fa;
+    --border-color: #e9ecef;
+    --text-color: #343a40;
+    --text-muted-color: #6c757d;
+    --primary-color: #007bff;
+    --primary-text-color: #fff;
+    --secondary-bg: #e9ecef;
+    --input-bg: #fff;
+    --input-border-color: #ced4da;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
+    background-color: var(--bg-color);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    transition: background-color 0.3s ease;
 }
+
+body.dark-mode {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --sidebar-bg: #252525;
+    --border-color: #333;
+    --text-color: #e0e0e0;
+    --text-muted-color: #a0a0a0;
+    --primary-color: #0d6efd;
+    --primary-text-color: #fff;
+    --secondary-bg: #333;
+    --input-bg: #252525;
+    --input-border-color: #444;
+}
+
+.container {
+    background-color: var(--container-bg);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+}
+
+.tab-button {
+    color: var(--text-muted-color);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+h2 {
+    color: var(--text-color);
+}
+
+.task-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.category-dropdown {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-color);
+    color: var(--text-color);
+}
+
+.task-item.completed label {
+    color: var(--text-muted-color);
+}
+
+.add-task-container {
+    background-color: var(--sidebar-bg);
+}
+
+#taskInput {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-color);
+    color: var(--text-color);
+}
+
+#addTaskBtn {
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+}
+
+.timer-section, .youtube-section {
+    background-color: var(--sidebar-bg);
+}
+
+.timer-box span {
+    color: var(--text-color);
+}
+
+.timer-box label {
+    color: var(--text-muted-color);
+}
+
+.control-button:not(.primary) {
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+}
+
+#youtubeUrl {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-color);
+    color: var(--text-color);
+}
+
+#loadVideoBtn {
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+}
+
+.video-container.empty {
+    background-color: var(--secondary-bg);
+}
+
+.collapsible-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
 
 .container {
     display: flex;

@@ -49,7 +49,7 @@ A modern productivity web app to help you organize your tasks, manage your time,
    # Then edit .env to add your SUPABASE_URL and SUPABASE_KEY
    ```
 4. **Set up Supabase table:**
-   - Create a table named `to_do_lists` with columns:
+   - Create a table named `tasks` with columns:
      - `id` (integer, primary key, auto-increment)
      - `task_name` (text)
      - `frequency` (text: 'daily', 'weekly', 'monthly')

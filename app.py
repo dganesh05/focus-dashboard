@@ -64,7 +64,7 @@ def move_weekly_tasks():
 
 def move_monthly_tasks():
     with app.app_context():
-        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'monthly').execute()
+        supabase.table('tasks').update({'category': 'inbox'}).eq('category', 'monthly').execute()
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
