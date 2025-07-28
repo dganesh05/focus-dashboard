@@ -21,13 +21,13 @@ def index():
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
     category = request.args.get('category', 'inbox')  # Default to 'inbox'
-    tasks = supabase.table('to_do_lists').select('*').eq('category', category).execute()
+    tasks = supabase.table('tasks').select('*').eq('category', category).execute()
     return jsonify(tasks.data)
 
 @app.route('/tasks', methods=['POST'])
 def add_task():
     data = request.get_json()
-    new_task = supabase.table('to_do_lists').insert({
+    new_task = supabase.table('tasks').insert({
         'task_name': data['task'],
         'category': data['category'],
         'status': False
@@ -46,21 +46,21 @@ def update_task(task_id):
     if 'category' in data:
         update_data['category'] = data['category']
     
-    updated_task = supabase.table('to_do_lists').update(update_data).eq('id', task_id).execute()
+    updated_task = supabase.table('tasks').update(update_data).eq('id', task_id).execute()
     return jsonify(updated_task.data[0])
 
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    supabase.table('to_do_lists').delete().eq('id', task_id).execute()
+    supabase.table('tasks').delete().eq('id', task_id).execute()
     return '', 204
 
 def move_daily_tasks():
     with app.app_context():
-        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'daily').execute()
+        supabase.table('tasks').update({'category': 'inbox'}).eq('category', 'daily').execute()
 
 def move_weekly_tasks():
     with app.app_context():
-        supabase.table('to_do_lists').update({'category': 'inbox'}).eq('category', 'weekly').execute()
+        supabase.table('tasks').update({'category': 'inbox'}).eq('category', 'weekly').execute()
 
 def move_monthly_tasks():
     with app.app_context():
